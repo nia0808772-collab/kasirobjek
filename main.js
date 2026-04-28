@@ -1,6 +1,9 @@
 // array global untuk menyimpan data barang
 let dataBarang = []
 
+//variabel global untuk menyimpan index barang yang sedang diedit
+let indexEdit = -1
+
 //fungsi untuk format angka ke rupiah
 function rupiah(angka) {
   return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -9,7 +12,7 @@ function rupiah(angka) {
 //fungsi untuk menyimpan data barang ke dalam array
 function simpan() {
   const nama = document.getElementById("nama").value
-  const harga = Number(document.getElementById("harga").value) 
+  const harga = Number(document.getElementById("harga").value)
   const qty = Number(document.getElementById("qty").value) 
   
   //buat object barang
@@ -67,6 +70,8 @@ function bersihkan() {
   document.getElementById('nama').value = ''
   document.getElementById('harga').value = ''
   document.getElementById('qty').value = 1
+  
+  modeSimpan()
 }
 
 //fungsi untuk menghapus item barang
@@ -76,4 +81,66 @@ function hapus(index) {
     
     //seteleh berhasil di hapus, tampilkan kembali data barang yang tersisa
     tampilkan()
+   
+    
+}
+
+//fungsi untuk menampilkan data barang yang akan di edit
+//nmenerima parameter index untuk mengetahui item mana yang akan diedit
+function edit(index) {
+    //ambil data barang yang akan diedit berdasarkan index
+    const barang = dataBarang[index]
+    
+    //tampilkan data barang di form input untuk diedit
+    document.getElementById('nama').value = barang.nama
+  document.getElementById('harga').value = barang.harga
+  document.getElementById('qty').value = barang.qty
+  
+  //simpan undex barang yang sedang diedit ke variabel global
+  indexEdit = index
+  
+  modeEdit()
+}
+
+//fungsi untuk menyimpan perubahan data barang yang sudah diedit
+function ubah() {
+    //pastikan ada item yang sedang diedit
+    if (indexEdit == -1) {
+alert("Tidak ada item yang sedang diedit.")    
+
+//hentikan fungsi jika tidak ada item yang sedang di edit
+return
+    }
+    //ambil nilai dari input
+    const nama = document.getElementById("nama").value
+  const harga = Number(document.getElementById("harga").value)
+  const qty = Number(document.getElementById("qty").value) 
+  
+  // simpan perubahan data barang ke dalam array berdasarkan index yang sedang di edit
+  dataBarang[indexEdit].nama = nama
+  dataBarang[indexEdit].harga = harga
+  dataBarang[indexEdit].qty = qty
+  
+  //reset index edit setelah perubahan di simpan 
+  indexEdit = -1
+  
+  //bersihkanform setelah mengambil nilai
+  bersihkan()
+  
+  // tampilkan kembali data berang yang sudah di ubah
+  tampilkan()
+  
+  modeSimpan() 
+}
+
+//fungsi untuk menonaktifkan tombol simpan dan aktifkan tombol update saat ada item yang sedang di edit
+function modeEdit() {
+    document.getElementById('tombolTambah').disabled = true
+    document.getElementById('tombolUpdate').disabled = false
+}
+
+//fungsi untik menonaktifkan tombol update dan aktifkan tombol simpan saat tidak ada item yang sedang di edit
+function modeSimpan() {
+document.getElementById('tombolTambah').disabled = false
+ document.getElementById('tombolUpdate').disabled = true
 }

@@ -90,12 +90,12 @@ button:disabled {
   font-size: 15px;
 }
 
-.editBtn {
+.tombolEdit{
   background: orange;
   color: white;
 }
 
-.hapusBtn {
+.tombolHapus {
   background: #dc2626;
   color: white;
 }

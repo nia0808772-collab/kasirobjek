@@ -1,8 +1,15 @@
 // array global untuk menyimpan data barang
-let dataBarang = []
+// ambil dari local storage jika ada, jika tidak buat array kosong
+let dataBarang = JSON.parse(localStorage.getItem("KASIR")) || []
 
 //variabel global untuk menyimpan index barang yang sedang diedit
 let indexEdit = -1
+
+//fungsi untuk menyimpan data barang ke local storage
+//setiap kali data berubah (simpan, ubah, hapus)
+function simpanKeStorage() {
+    localStorage.setItem("KASIR",JSON.stringify(dataBarang))
+}
 
 //fungsi untuk format angka ke rupiah
 function rupiah(angka) {
@@ -24,6 +31,9 @@ function simpan() {
   
   //tambah object barang ke dalam array
   dataBarang.push(barang)
+  
+  //simpan data barang ke local storage
+  simpanKeStorage()
   
   //tampilkan data barang
   tampilkan()
@@ -79,6 +89,9 @@ function hapus(index) {
     //menghapus item dari array berdasarkan index
     dataBarang.splice(index, 1)
     
+      //simpan data barang ke local storage
+  simpanKeStorage()
+    
     //seteleh berhasil di hapus, tampilkan kembali data barang yang tersisa
     tampilkan()
    
@@ -124,6 +137,9 @@ return
   //reset index edit setelah perubahan di simpan 
   indexEdit = -1
   
+    //simpan data barang ke local storage
+  simpanKeStorage()
+  
   //bersihkanform setelah mengambil nilai
   bersihkan()
   
@@ -144,3 +160,7 @@ function modeSimpan() {
 document.getElementById('tombolTambah').disabled = false
  document.getElementById('tombolUpdate').disabled = true
 }
+
+//memanggil fungsi tampilkan untuk menampilkan
+//data barang saat pertama kali dimuat
+tampilkan()

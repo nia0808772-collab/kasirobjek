@@ -1,6 +1,10 @@
 // array global untuk menyimpan data barang
 // ambil dari local storage jika ada, jika tidak buat array kosong
-let dataBarang = JSON.parse(localStorage.getItem("KASIR")) || []
+let dataBarang = JSON.parse(localStorage.getItem("KASIR")) || [{
+    nama:"Pensil", 
+    harga:10000, 
+    qty:2
+}]
 
 //variabel global untuk menyimpan index barang yang sedang diedit
 let indexEdit = -1
@@ -160,6 +164,8 @@ function modeSimpan() {
 document.getElementById('tombolTambah').disabled = false
  document.getElementById('tombolUpdate').disabled = true
 }
+
+simpanKeStorage()
 
 //memanggil fungsi tampilkan untuk menampilkan
 //data barang saat pertama kali dimuat
